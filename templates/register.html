@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h2 align="center">Register</h2>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form class="form-horizontal" method="POST" action="{% url "register" %}" style="margin-top: 40px">
+                {% csrf_token %}
+                {# USERNAME #}
+                <div class="form-group{% if errors.username %} has-error{% endif %}">
+                    <label for="username" class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Username" />
+                    </div>
+                    <span class="text-danger">{{ errors.username|striptags }}</span>
+                </div>
+
+                {# PASSWORD #}
+                <div class="form-group{% if errors.password %} has-error{% endif %}">
+                    <label for="password" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+                    </div>
+                    <span class="text-danger">{{ errors.password|striptags }}</span>
+                </div>
+
+                {# CONFIRM PASSWORD #}
+                <div class="form-group{% if errors.password %} has-error{% endif %}">
+                    <label for="confirm_password" class="col-sm-2 control-label">Confirm Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confirm Password" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary pull-right" style="margin-left: 5px">Submit</button>
+                <button type="button" class="btn btn-default pull-right" onclick="location.href='{% url "login" %}'">Back</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

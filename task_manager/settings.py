@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -51,10 +53,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'task_manager.urls'
 
+SITE_ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), '../'))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [SITE_ROOT + '/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
