@@ -7,7 +7,7 @@ from task.models import Task
 
 class add_task_form(Form):
     name = CharField(required=True)
-    assignee = CharField(required=True)
+    assignee = CharField(required=False)
     description = CharField(required=False)
 
     def clean_assignee(self):
