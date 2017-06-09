@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         {% if request.user.is_authenticated %}
-                <a class="btn btn-default pull-right" href="{% url "logout" %}">Logout</a>
+                <a class="btn btn-danger pull-right" href="{% url "logout" %}" style="margin-top: 10px">Logout</a>
         {% endif %}
 
         {% block content %}{% endblock %}

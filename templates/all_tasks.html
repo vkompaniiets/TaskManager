@@ -1,0 +1,41 @@
+{% extends "main.html" %}
+
+{% block title %}All tasks{% endblock %}
+
+{% block content %}
+    <h2 align="center">List of all tasks</h2>
+    <div style="margin: 10px">
+        <a class="btn btn-warning" href="{% url "add" %}">New task</a>
+    </div>
+
+        {% if tasks %}
+        {% for task in tasks %}
+	        <div class='col-sm-4'>
+	            <div class="panel panel-default">
+                    {% if task.completed %}
+	                <div class="panel-body bg-info">
+                    {% else %}
+                    <div class="panel-body bg-">
+                    {% endif %}
+		                <p class='lead'>Task: {{ task.name }}</p>
+		                <p>Description: {{ task.description }}</p>
+		                <p>Assignee: {{ task.assignee.username }}</p>
+		                <p>Created by: {{ task.created_by.username }}</p>
+		                <p>
+		                    {% if not task.completed %}
+                                <a class="btn btn-success" href="{% url "mark_done" task.id %}">Done</a>
+                            {% endif %}
+                                <a class="btn btn-info" href="{% url "edit" task.id %}">Edit</a>
+                            {% if not task.deleted %}
+                                <a class="btn btn-danger" href="{% url "delete" task.id %}">Delete</a>
+                            {% endif %}
+		                </p>
+	                </div>
+	            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+            <p>There are no tasks</p>
+        {% endif %}
+    </div>
+{% endblock %}

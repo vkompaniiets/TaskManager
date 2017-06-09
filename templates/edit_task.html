@@ -1,0 +1,51 @@
+{% extends "main.html" %}
+
+{% block title %}{% if edit %}Edit{% else %}Add{% endif %} task{% endblock %}
+
+{% block content %}
+    <h2 align="center">{% if edit %}Edit{% else %}New{% endif %} task</h2>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form class="form-horizontal" method="POST" action="{% if edit %}{% url "edit" task_id %}{% else %}{% url "add" %}{% endif %}" style="margin-top: 40px">
+                {% csrf_token %}
+                <div class="form-group{% if errors.name %} has-error{% endif %}">
+                    <label for="name" class="col-sm-2 control-label">Task name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Task name" value="{{ form.name.value }}" />
+                    </div>
+                    <span class="text-danger">{{ errors.name|striptags }}</span>
+                </div>
+
+                <div class="form-group{% if errors.description %} has-error{% endif %}">
+                    <label for="name" class="col-sm-2 control-label">Description</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="{{ form.description.value }}" />
+                    </div>
+                    <span class="text-danger">{{ errors.description|striptags }}</span>
+                </div>
+
+                <div class="form-group{% if errors.assignee %} has-error{% endif %}">
+                    <label for="assignee" class="col-sm-2 control-label">Assignee (username)</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="assignee" id="assignee" placeholder="Assignee" value="{{ form.assignee.value }}" />
+                    </div>
+                    <span class="text-danger">{{ errors.assignee|striptags }}</span>
+                </div>
+
+                {% if edit %}
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="completed" {% if form.completed %}checked="checked"{% endif %} > Completed
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary pull-right" style="margin-left: 5px">Submit</button>
+                <button type="submit" class="btn btn-default pull-right" onclick="javascript:history.go(-1);">Back</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
