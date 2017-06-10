@@ -5,9 +5,9 @@ from django.forms import ModelForm, CharField, Form
 from task.models import Task
 
 
-class add_task_form(Form):
+class AddTaskForm(Form):
     name = CharField(required=True)
-    assignee = CharField(required=False)
+    assignee = CharField(required=True)
     description = CharField(required=False)
 
     def clean_assignee(self):
@@ -18,7 +18,7 @@ class add_task_form(Form):
             raise ValidationError('Assignee does not exist')
 
 
-class edit_task_form(ModelForm):
+class EditTaskForm(ModelForm):
     class Meta:
         model = Task
         fields = ['assignee', 'name', 'description', 'completed']

@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 
-from task.forms import add_task_form, edit_task_form
+from task.forms import AddTaskForm, EditTaskForm
 from task.models import Task
 
 
@@ -19,7 +20,8 @@ def show_all_tasks(request):
 @login_required
 def add(request):
     if request.method == 'POST':
-        form = add_task_form(request.POST)
+        form = AddTaskForm(request.POST)
+
         if form.is_valid():
             Task(
                 assignee=form.cleaned_data.get('assignee'),
@@ -31,7 +33,8 @@ def add(request):
         else:
             return TemplateResponse(request, 'edit_task.html', {'errors': form.errors})
     else:
-        return TemplateResponse(request, 'edit_task.html', {})
+        users = list(User.objects.all())
+        return TemplateResponse(request, 'edit_task.html', {'users': users})
 
 
 @login_required
@@ -49,7 +52,7 @@ def mark_done(request, task_id):
 @login_required
 def edit(request, task_id):
     if request.method == 'POST':
-        form = edit_task_form(instance=Task.objects.get(id=task_id), data=request.POST)
+        form = EditTaskForm(instance=Task.objects.get(id=task_id), data=request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('show_all_tasks'))
@@ -60,7 +63,7 @@ def edit(request, task_id):
         except Task.DoesNotExist:
             raise Http404
 
-        form = edit_task_form(instance=task)
+        form = EditTaskForm(instance=task)
         return TemplateResponse(request, 'edit_task.html', {'form': form, 'edit': True, 'task_id': task_id})
 
 
